@@ -13,7 +13,9 @@ from metagpt.utils.mermaid import MMC1, MMC2
 IMPLEMENTATION_APPROACH = ActionNode(
     key="Implementation approach",
     expected_type=str,
-    instruction="Analyze the difficult points of the requirements, select the appropriate open-source framework",
+    instruction="Analyze the requirements and develop an implementation strategy."
+    "List all of the relevant tools, frameworks, platforms, etc. that you will "
+    "need for the implementation of this project, and explain what the purpose of each will serve.",
     example="We will ...",
 )
 
@@ -28,21 +30,6 @@ REFINED_IMPLEMENTATION_APPROACH = ActionNode(
 
 PROJECT_NAME = ActionNode(
     key="Project name", expected_type=str, instruction="The project name with underline", example="game_2048"
-)
-
-FILE_LIST = ActionNode(
-    key="File list",
-    expected_type=List[str],
-    instruction="Only need relative paths. ALWAYS write a main.py or app.py here",
-    example=["main.py", "game.py"],
-)
-
-REFINED_FILE_LIST = ActionNode(
-    key="Refined File list",
-    expected_type=List[str],
-    instruction="Update and expand the original file list including only relative paths. Up to 2 files can be added."
-    "Ensure that the refined file list reflects the evolving structure of the project.",
-    example=["main.py", "game.py", "new_feature.py"],
 )
 
 # optional,because low success reproduction of class diagram in non py project.
@@ -93,7 +80,6 @@ ANYTHING_UNCLEAR = ActionNode(
 NODES = [
     IMPLEMENTATION_APPROACH,
     # PROJECT_NAME,
-    FILE_LIST,
     DATA_STRUCTURES_AND_INTERFACES,
     PROGRAM_CALL_FLOW,
     ANYTHING_UNCLEAR,
@@ -101,7 +87,6 @@ NODES = [
 
 REFINED_NODES = [
     REFINED_IMPLEMENTATION_APPROACH,
-    REFINED_FILE_LIST,
     REFINED_DATA_STRUCTURES_AND_INTERFACES,
     REFINED_PROGRAM_CALL_FLOW,
     ANYTHING_UNCLEAR,
