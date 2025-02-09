@@ -21,6 +21,8 @@ from metagpt.actions.design_api_an import (
     REFINED_DATA_STRUCTURES_AND_INTERFACES,
     REFINED_DESIGN_NODE,
     REFINED_PROGRAM_CALL_FLOW,
+    DEPENDENCIES,
+    REFINED_DEPENDENCIES,
 )
 from metagpt.const import DATA_API_DESIGN_FILE_REPO, SEQ_FLOW_FILE_REPO
 from metagpt.logs import logger
@@ -94,6 +96,7 @@ class WriteDesign(Action):
             await self.repo.docs.system_design.save_doc(doc=doc, dependencies={prd.root_relative_path})
         await self._save_data_api_design(doc)
         await self._save_seq_flow(doc)
+        await self._save_external_dependency(doc)
         await self.repo.resources.system_design.save_pdf(doc=doc)
         return doc
 
@@ -118,3 +121,23 @@ class WriteDesign(Action):
     async def _save_mermaid_file(self, data: str, pathname: Path):
         pathname.parent.mkdir(parents=True, exist_ok=True)
         await mermaid_to_file(self.config.mermaid.engine, data, pathname)
+
+    async def _save_external_dependency(self, design_doc):
+        """Save external dependencies to requirements.txt in project root directory"""
+        m = json.loads(design_doc.content)
+        dependencies = m.get(DEPENDENCIES.key) or m.get(REFINED_DEPENDENCIES.key)
+        if not dependencies:
+            return
+        
+        # TODO: 需要根据项目类型来确定 depenency filename and requirements_path
+        requirements_path = self.repo.src_relative_path / "requirements.txt"
+        # Avoid duplicates with existing requirements
+        existing_deps = set()
+        if requirements_path.exists():
+            existing_deps = set(requirements_path.read_text().splitlines())
+        # Patch new dependencies
+        all_deps = existing_deps.union(dependencies)
+        
+        # Write sorted dependencies to file
+        requirements_path.write_text('\n'.join(sorted(all_deps)) + '\n')
+        logger.info(f"Saved dependencies to {str(requirements_path)}")

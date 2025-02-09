@@ -21,7 +21,7 @@ from metagpt.environment.base_env_space import BaseEnvAction, BaseEnvObsParams
 from metagpt.logs import logger
 from metagpt.schema import Message
 from metagpt.utils.common import get_function_schema, is_coroutine_func, is_send_to
-
+from llm_sandbox import SandboxSession
 if TYPE_CHECKING:
     from metagpt.roles.role import Role  # noqa: F401
 
@@ -133,6 +133,7 @@ class Environment(ExtEnv):
     member_addrs: Dict["Role", Set] = Field(default_factory=dict, exclude=True)
     history: str = ""  # For debug
     context: Context = Field(default_factory=Context, exclude=True)
+    sandbox_env: SandboxSession = None
 
     def reset(
         self,

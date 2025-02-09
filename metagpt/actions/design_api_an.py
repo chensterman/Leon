@@ -90,10 +90,25 @@ ANYTHING_UNCLEAR = ActionNode(
     example="Clarification needed on third-party API integration, ...",
 )
 
+DEPENDENCIES = ActionNode(
+    key="Dependencies",
+    expected_type=List[str],
+    instruction="List all external dependencies (libraries/packages) needed to implement the project. Include version numbers when specific versions are required.",
+    example=["pygame==2.5.0", "numpy>=1.24.0", "requests>=2.31.0"]
+)
+
+REFINED_DEPENDENCIES = ActionNode(
+    key="Refined Dependencies",
+    expected_type=List[str],
+    instruction="Update the list of dependencies to include any new packages required for the incremental changes. Maintain existing dependencies that are still needed.",
+    example=["pygame==2.5.0", "numpy>=1.24.0", "requests>=2.31.0", "pillow>=10.0.0"]
+)
+
 NODES = [
     IMPLEMENTATION_APPROACH,
     # PROJECT_NAME,
     FILE_LIST,
+    DEPENDENCIES,
     DATA_STRUCTURES_AND_INTERFACES,
     PROGRAM_CALL_FLOW,
     ANYTHING_UNCLEAR,
@@ -102,6 +117,7 @@ NODES = [
 REFINED_NODES = [
     REFINED_IMPLEMENTATION_APPROACH,
     REFINED_FILE_LIST,
+    REFINED_DEPENDENCIES,
     REFINED_DATA_STRUCTURES_AND_INTERFACES,
     REFINED_PROGRAM_CALL_FLOW,
     ANYTHING_UNCLEAR,
