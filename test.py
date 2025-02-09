@@ -5,6 +5,7 @@ from metagpt.team import Team
 from metagpt.roles import (
     Architect,
     ProductManager,
+    ProjectManager,
 )
 
 app = typer.Typer()
@@ -20,6 +21,7 @@ async def main(
         [
             ProductManager(),
             Architect(),
+            ProjectManager(),
         ]
     )
 

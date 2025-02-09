@@ -26,7 +26,7 @@ from typing import Optional, Set
 
 from metagpt.actions import Action, WriteCode, WriteCodeReview, WriteTasks
 from metagpt.actions.fix_bug import FixBug
-from metagpt.actions.project_management_an import REFINED_TASK_LIST, TASK_LIST
+from metagpt.actions.project_management_an import REFINED_TASK_STEPS, TASK_STEPS
 from metagpt.actions.summarize_code import SummarizeCode
 from metagpt.actions.write_code_plan_and_change_an import WriteCodePlanAndChange
 from metagpt.const import (

@@ -21,7 +21,7 @@ from pydantic import Field
 from tenacity import retry, stop_after_attempt, wait_random_exponential
 
 from metagpt.actions.action import Action
-from metagpt.actions.project_management_an import REFINED_TASK_LIST, TASK_LIST
+from metagpt.actions.project_management_an import REFINED_TASK_STEPS, TASK_STEPS
 from metagpt.actions.write_code_plan_and_change_an import REFINED_TEMPLATE
 from metagpt.const import BUGFIX_FILENAME, REQUIREMENT_FILENAME
 from metagpt.logs import logger
@@ -166,7 +166,7 @@ class WriteCode(Action):
         if not task_doc.content:
             task_doc = project_repo.docs.task.get(filename=task_doc.filename)
         m = json.loads(task_doc.content)
-        code_filenames = m.get(TASK_LIST.key, []) if not use_inc else m.get(REFINED_TASK_LIST.key, [])
+        code_filenames = m.get(TASK_STEPS.key, []) if not use_inc else m.get(REFINED_TASK_STEPS.key, [])
         codes = []
         src_file_repo = project_repo.srcs
 
